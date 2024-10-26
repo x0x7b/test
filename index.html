@@ -69,7 +69,7 @@
 
                 // Случайный угол для направления сыпания
                 const angle = Math.random() * 2 * Math.PI;
-                const distance = Math.random() * 100; // Случайное расстояние
+                const distance = Math.random() * 100 + 50; // Случайное расстояние (от 50 до 150)
                 const x = Math.cos(angle) * distance;
                 const y = Math.sin(angle) * distance;
 
