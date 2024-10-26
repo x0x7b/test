@@ -107,7 +107,6 @@
             balance += 1;
             document.getElementById('counter').innerText = `У вас на балансі ${balance} Ніхуякойнів`;
 
-            // Создаем текст "1"
             const floatText = document.createElement('div');
             floatText.innerText = '1';
             floatText.className = 'floating-text';
@@ -125,30 +124,25 @@
                 document.body.removeChild(floatText);
             }, 500);
 
-            // Создаем несколько кубиков
             for (let i = 0; i < 10; i++) {
                 const cube = document.createElement('div');
                 cube.className = 'floating';
 
-                // Позиция кубика
                 cube.style.left = `${event.clientX}px`;
                 cube.style.top = `${event.clientY}px`;
 
-                // Случайный угол для направления сыпания
                 const angle = Math.random() * 2 * Math.PI;
-                const distance = Math.random() * 100 + 50; // Случайное расстояние (от 50 до 150)
+                const distance = Math.random() * 100 + 50; 
                 const x = Math.cos(angle) * distance;
                 const y = Math.sin(angle) * distance;
 
-                // Установка переменных для анимации
                 cube.style.setProperty('--x', `${x}px`);
                 cube.style.setProperty('--y', `${y}px`);
 
                 document.body.appendChild(cube);
 
-                // Удаляем кубик через 500 мс после анимации
                 setTimeout(() => {
-                    cube.style.opacity = '0'; // Фейд-аут
+                    cube.style.opacity = '0';
                 }, 10);
 
                 setTimeout(() => {
@@ -166,21 +160,27 @@
         }
 
         async function purchaseCoins() {
-            const response = await fetch('https://api.crypt.bot/v1/buy', {
+            const response = await fetch('https://api.crypt.bot/v1/create_invoice', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': '285298:AAJZsXjxouxNQ1SYzwvEsQDjPK5qKmzvjDx' // Замените на ваш токен
                 },
                 body: JSON.stringify({
+                    chat_id: '6295225907', // Замените на ID чата пользователя
                     amount: 1, // Количество монет для покупки
-                    currency: 'USDT', // Валюта, в которой вы хотите купить
-                    // Добавьте другие параметры по необходимости
+                    currency: 'NihuaCoin', // Ваша валюта
+                    title: 'Купить NihuaCoin', // Заголовок
+                    description: 'Покупка монет', // Описание
                 })
             });
 
             const result = await response.json();
-            alert(result.message || 'Покупка завершена'); // Уведомление о результате покупки
+            if (result.success) {
+                alert('Счет успешно создан. Ссылка на оплату: ' + result.invoice_url);
+            } else {
+                alert('Ошибка: ' + result.description);
+            }
         }
     </script>
 
