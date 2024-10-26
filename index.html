@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кріпто Мінєтка</title>
+    <title>КріптоМінєтка</title>
     <style>
         body {
             display: flex;
@@ -41,8 +41,22 @@
             width: 10px; /* Ширина кубика */
             height: 10px; /* Высота кубика */
             background-color: white; /* Цвет кубика */
-            transition: transform 0.5s ease, opacity 0.5s ease;
             opacity: 1;
+            animation: float 0.5s forwards; /* Плавная анимация с такой же продолжительностью */
+        }
+        @keyframes float {
+            0% {
+                transform: translate(0, 0); /* Начальная позиция */
+            }
+            100% {
+                transform: translate(var(--x), var(--y)); /* Конечная позиция */
+            }
+        }
+        .floating-text {
+            position: absolute;
+            font-size: 24px;
+            color: black;
+            transition: transform 0.5s ease, opacity 0.5s ease;
         }
     </style>
 </head>
@@ -57,6 +71,24 @@
         function increment(event) {
             balance += 1;
             document.getElementById('counter').innerText = `Баланс: ${balance}`;
+
+            // Создаем текст "1"
+            const floatText = document.createElement('div');
+            floatText.innerText = '1';
+            floatText.className = 'floating-text';
+            floatText.style.left = `${event.clientX - 20}px`;
+            floatText.style.top = `${event.clientY - 40}px`;
+
+            document.body.appendChild(floatText);
+
+            setTimeout(() => {
+                floatText.style.transform = 'translateY(-50px)';
+                floatText.style.opacity = '0';
+            }, 10);
+
+            setTimeout(() => {
+                document.body.removeChild(floatText);
+            }, 500);
 
             // Создаем несколько кубиков
             for (let i = 0; i < 10; i++) {
@@ -73,8 +105,10 @@
                 const x = Math.cos(angle) * distance;
                 const y = Math.sin(angle) * distance;
 
-                // Анимация сыпания
-                cube.style.transform = `translate(${x}px, ${y}px)`;
+                // Установка переменных для анимации
+                cube.style.setProperty('--x', `${x}px`);
+                cube.style.setProperty('--y', `${y}px`);
+
                 document.body.appendChild(cube);
 
                 // Удаляем кубик через 500 мс после анимации
