@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кріпто_Мінєтка</title>
+    <title>Кріпто Мінєтка</title>
     <style>
         body {
             display: flex;
@@ -15,7 +15,7 @@
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             text-align: center;
-            position: relative; /* Для относительного позиционирования */
+            position: relative;
         }
         #counter {
             font-size: 24px;
@@ -27,15 +27,15 @@
             background-image: url('coin.png'); /* Замените на ваше изображение */
             background-size: cover;
             cursor: pointer;
-            position: relative; /* Для позиционирования */
-            border-radius: 50%; /* Круглая форма */
+            position: relative;
+            border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border: none; /* Убираем границы */
-            outline: none; /* Убираем синий эффект */
-            touch-action: manipulation; /* Убираем эффект нажатия на сенсорном экране */
+            border: none;
+            outline: none;
+            touch-action: manipulation;
         }
         #coin:active {
-            transform: scale(1); /* Убираем эффект сжатия при нажатии */
+            transform: scale(0.95); /* Легкое сжатие при нажатии */
         }
         .floating {
             position: absolute;
@@ -60,21 +60,19 @@
             const floatText = document.createElement('div');
             floatText.innerText = '1';
             floatText.className = 'floating';
-            floatText.style.left = `${event.clientX - 20}px`; // Установка позиции по X
-            floatText.style.top = `${event.clientY - 40}px`; // Установка позиции по Y
+            floatText.style.left = `${event.clientX - 20}px`;
+            floatText.style.top = `${event.clientY - 40}px`;
 
             document.body.appendChild(floatText);
 
-            // Анимация движения вверх и исчезновения
             setTimeout(() => {
                 floatText.style.transform = 'translateY(-50px)';
                 floatText.style.opacity = '0';
             }, 10);
 
-            // Удаление текста после анимации
             setTimeout(() => {
                 document.body.removeChild(floatText);
-            }, 600); // Длительность анимации + немного времени
+            }, 600);
         }
     </script>
 
