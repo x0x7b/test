@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Крипто Монета</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        #counter {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #circle {
+            width: 150px; /* Увеличенный размер круга */
+            height: 150px; /* Увеличенный размер круга */
+            background-color: gold; /* Цвет, похожий на монету */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px; /* Размер текста внутри круга */
+            color: black;
+            cursor: pointer;
+            transition: transform 0.1s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для эффекта монеты */
+        }
+        #circle:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="counter">Баланс: 0</div>
+    <div id="circle" onclick="increment()">Кликни!</div>
+
+    <script>
+        let balance = 0;
+
+        function increment() {
+            balance += 1;
+            document.getElementById('counter').innerText = `Баланс: ${balance}`;
+        }
+    </script>
+
+</body>
+</html>
