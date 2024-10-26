@@ -24,7 +24,7 @@
         #coin {
             width: 150px;
             height: 150px;
-            background-image: url(''); /* Замените на ваше изображение монеты */
+            background-image: url('https://example.com/coin.png'); /* Замените на ваше изображение монеты */
             background-size: cover;
             cursor: pointer;
             position: relative;
@@ -38,9 +38,9 @@
         }
         .floating {
             position: absolute;
-            width: 10px; /* Ширина кубика */
-            height: 10px; /* Высота кубика */
-            background-color: white; /* Цвет кубика */
+            width: 10px; 
+            height: 10px; 
+            background-color: white; 
             opacity: 1;
             animation: float 0.5s forwards;
         }
@@ -94,7 +94,7 @@
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             return {
-                coins: parseInt(params.get('coins')) || 0 // Возвращаем 0, если параметр не установлен
+                coins: parseInt(params.get('balance')) || 0 // Изменено с 'coins' на 'balance'
             };
         }
 
@@ -107,14 +107,23 @@
 
         function increment(event) {
             balance += 1;
-            document.getElementById('counter').innerText = `У вас на балансі ${balance} Ніхуякойнів`;
+            updateBalanceDisplay();
 
+            showFloatingText(event, '1');
+            createFloatingCubes(event);
+            updateURL(); // Обновляем URL с текущим балансом
+        }
+
+        function updateBalanceDisplay() {
+            document.getElementById('counter').innerText = `У вас на балансі ${balance} Ніхуякойнів`;
+        }
+
+        function showFloatingText(event, text) {
             const floatText = document.createElement('div');
-            floatText.innerText = '1';
+            floatText.innerText = text;
             floatText.className = 'floating-text';
             floatText.style.left = `${event.clientX - 20}px`;
             floatText.style.top = `${event.clientY - 40}px`;
-
             document.body.appendChild(floatText);
 
             setTimeout(() => {
@@ -125,7 +134,9 @@
             setTimeout(() => {
                 document.body.removeChild(floatText);
             }, 500);
+        }
 
+        function createFloatingCubes(event) {
             for (let i = 0; i < 10; i++) {
                 const cube = document.createElement('div');
                 cube.className = 'floating';
@@ -153,11 +164,15 @@
             }
         }
 
+        function updateURL() {
+            const newURL = `${window.location.origin}${window.location.pathname}?balance=${balance}`;
+            history.pushState({ path: newURL }, '', newURL);
+        }
+
         function showMessage() {
             document.getElementById('message').style.display = 'block';
         }
 
-        // Инициализация при загрузке страницы
         window.onload = initializeBalance;
     </script>
 
