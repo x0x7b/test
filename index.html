@@ -15,7 +15,7 @@
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             text-align: center;
-            position: relative; /* Добавлено для относительного позиционирования */
+            position: relative; /* Для относительного позиционирования */
         }
         #counter {
             font-size: 24px;
@@ -24,14 +24,15 @@
         #coin {
             width: 150px;
             height: 150px;
-            background-image: url('coin.jpg'); /* Замените на ваше изображение */
+            background-image: url('coin.png'); /* Замените на ваше изображение */
             background-size: cover;
             cursor: pointer;
-            position: relative; /* Добавлено для позиционирования */
+            position: relative; /* Для позиционирования */
             border-radius: 50%; /* Круглая форма */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.1s; /* Убрать эффект при нажатии */
-            outline: none;
+            border: none; /* Убираем границы */
+            outline: none; /* Убираем синий эффект */
+            touch-action: manipulation; /* Убираем эффект нажатия на сенсорном экране */
         }
         #coin:active {
             transform: scale(1); /* Убираем эффект сжатия при нажатии */
