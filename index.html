@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,6 +46,29 @@
             color: black;
             transition: transform 0.5s ease, opacity 0.5s ease;
         }
+        .explosion {
+            position: absolute;
+            width: 100px; /* Ширина взрыва */
+            height: 100px; /* Высота взрыва */
+            background-image: url('explosion.png'); /* Замените на ваше изображение взрыва */
+            background-size: cover;
+            pointer-events: none; /* Чтобы элемент не мешал кликам */
+            animation: explode 0.6s forwards; /* Анимация взрыва */
+        }
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -55,11 +78,26 @@
 
     <script>
         let balance = 0;
+        let upgradeLevel = 1;
 
         function increment(event) {
-            balance += 1;
+            balance += (1 + upgradeLevel - 1);
             document.getElementById('counter').innerText = `Баланс: ${balance}`;
 
+            // Элемент для эффекта взрыва
+            const explosion = document.createElement('div');
+            explosion.className = 'explosion';
+            explosion.style.left = `${event.clientX - 50}px`; // Центрируем элемент
+            explosion.style.top = `${event.clientY - 50}px`;
+
+            document.body.appendChild(explosion);
+
+            // Удаляем элемент взрыва через 600 мс после анимации
+            setTimeout(() => {
+                document.body.removeChild(explosion);
+            }, 600);
+
+            // Плавающий текст
             const floatText = document.createElement('div');
             floatText.innerText = '1';
             floatText.className = 'floating';
