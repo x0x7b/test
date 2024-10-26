@@ -90,6 +90,21 @@
     <script>
         let balance = 0;
 
+        // Функция для получения параметров из URL
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                coins: parseInt(params.get('coins')) || 0 // Возвращаем 0, если параметр не установлен
+            };
+        }
+
+        // Инициализация баланса на основе параметров
+        function initializeBalance() {
+            const params = getQueryParams();
+            balance += params.coins; // Добавляем монеты из URL
+            document.getElementById('counter').innerText = `У вас на балансі ${balance} Ніхуякойнів`;
+        }
+
         function increment(event) {
             balance += 1;
             document.getElementById('counter').innerText = `У вас на балансі ${balance} Ніхуякойнів`;
@@ -141,6 +156,9 @@
         function showMessage() {
             document.getElementById('message').style.display = 'block';
         }
+
+        // Инициализация при загрузке страницы
+        window.onload = initializeBalance;
     </script>
 
 </body>
