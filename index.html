@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кріпто+Мінєтка</title>
+    <title>Кріпто Мінєтка</title>
     <style>
         body {
             display: flex;
@@ -24,50 +24,25 @@
         #coin {
             width: 150px;
             height: 150px;
-            background-image: url('coin.jpg'); /* Замените на ваше изображение */
+            background-image: url('coin.jpg'); /* Замените на ваше изображение монеты */
             background-size: cover;
             cursor: pointer;
             position: relative;
             border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border: none;
-            outline: none;
             touch-action: manipulation;
-        }
-        #coin:focus {
-            outline: none;
         }
         #coin:active {
             transform: scale(0.95); /* Легкое сжатие при нажатии */
         }
         .floating {
             position: absolute;
-            font-size: 24px;
-            color: black;
+            width: 10px; /* Ширина кубика */
+            height: 10px; /* Высота кубика */
+            background-color: white; /* Цвет кубика */
             transition: transform 0.5s ease, opacity 0.5s ease;
-        }
-        .explosion {
-            position: absolute;
-            width: 100px; /* Ширина взрыва */
-            height: 100px; /* Высота взрыва */
-            background-image: url('explosion.png'); /* Замените на ваше изображение взрыва */
-            background-size: cover;
-            pointer-events: none; /* Чтобы элемент не мешал кликам */
-            animation: explode 0.6s forwards; /* Анимация взрыва */
-        }
-        @keyframes explode {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.5);
-                opacity: 0.7;
-            }
-            100% {
-                transform: scale(0);
-                opacity: 0;
-            }
+            opacity: 1;
         }
     </style>
 </head>
@@ -78,42 +53,39 @@
 
     <script>
         let balance = 0;
-        let upgradeLevel = 1;
 
         function increment(event) {
-            balance += (1 + upgradeLevel - 1);
+            balance += 1;
             document.getElementById('counter').innerText = `Баланс: ${balance}`;
 
-            // Элемент для эффекта взрыва
-            const explosion = document.createElement('div');
-            explosion.className = 'explosion';
-            explosion.style.left = `${event.clientX - 50}px`; // Центрируем элемент
-            explosion.style.top = `${event.clientY - 50}px`;
+            // Создаем несколько кубиков
+            for (let i = 0; i < 10; i++) {
+                const cube = document.createElement('div');
+                cube.className = 'floating';
 
-            document.body.appendChild(explosion);
+                // Позиция кубика
+                cube.style.left = `${event.clientX}px`;
+                cube.style.top = `${event.clientY}px`;
 
-            // Удаляем элемент взрыва через 600 мс после анимации
-            setTimeout(() => {
-                document.body.removeChild(explosion);
-            }, 600);
+                // Случайный угол для направления сыпания
+                const angle = Math.random() * 2 * Math.PI;
+                const distance = Math.random() * 100; // Случайное расстояние
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
 
-            // Плавающий текст
-            const floatText = document.createElement('div');
-            floatText.innerText = '1';
-            floatText.className = 'floating';
-            floatText.style.left = `${event.clientX - 20}px`;
-            floatText.style.top = `${event.clientY - 40}px`;
+                // Анимация сыпания
+                cube.style.transform = `translate(${x}px, ${y}px)`;
+                document.body.appendChild(cube);
 
-            document.body.appendChild(floatText);
+                // Удаляем кубик через 500 мс после анимации
+                setTimeout(() => {
+                    cube.style.opacity = '0'; // Фейд-аут
+                }, 10);
 
-            setTimeout(() => {
-                floatText.style.transform = 'translateY(-50px)';
-                floatText.style.opacity = '0';
-            }, 10);
-
-            setTimeout(() => {
-                document.body.removeChild(floatText);
-            }, 600);
+                setTimeout(() => {
+                    document.body.removeChild(cube);
+                }, 500);
+            }
         }
     </script>
 
