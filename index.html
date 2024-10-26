@@ -15,41 +15,59 @@
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             text-align: center;
+            position: relative; /* Добавлено для относительного позиционирования */
         }
         #counter {
             font-size: 24px;
             margin-bottom: 20px;
         }
-        #circle {
-            width: 150px; /* Увеличенный размер круга */
-            height: 150px; /* Увеличенный размер круга */
-            background-color: gold; /* Цвет, похожий на монету */
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px; /* Размер текста внутри круга */
-            color: black;
+        #coin {
+            width: 150px;
+            height: 150px;
+            background-image: url('coin.png'); /* Замените на ваше изображение */
+            background-size: cover;
             cursor: pointer;
-            transition: transform 0.1s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для эффекта монеты */
+            position: relative; /* Добавлено для позиционирования */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        #circle:active {
-            transform: scale(0.95);
+        .floating {
+            position: absolute;
+            font-size: 24px;
+            color: black;
+            transition: transform 0.5s ease, opacity 0.5s ease;
         }
     </style>
 </head>
 <body>
 
     <div id="counter">Баланс: 0</div>
-    <div id="circle" onclick="increment()">Кликни!</div>
+    <div id="coin" onclick="increment(event)"></div>
 
     <script>
         let balance = 0;
 
-        function increment() {
+        function increment(event) {
             balance += 1;
             document.getElementById('counter').innerText = `Баланс: ${balance}`;
+
+            const floatText = document.createElement('div');
+            floatText.innerText = '1';
+            floatText.className = 'floating';
+            floatText.style.left = `${event.clientX - 20}px`; // Установка позиции по X
+            floatText.style.top = `${event.clientY - 40}px`; // Установка позиции по Y
+
+            document.body.appendChild(floatText);
+
+            // Анимация движения вверх и исчезновения
+            setTimeout(() => {
+                floatText.style.transform = 'translateY(-50px)';
+                floatText.style.opacity = '0';
+            }, 10);
+
+            // Удаление текста после анимации
+            setTimeout(() => {
+                document.body.removeChild(floatText);
+            }, 600); // Длительность анимации + немного времени
         }
     </script>
 
