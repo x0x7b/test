@@ -41,8 +41,16 @@
             width: 10px; /* Ширина кубика */
             height: 10px; /* Высота кубика */
             background-color: white; /* Цвет кубика */
-            transition: transform 0.5s ease, opacity 0.5s ease;
             opacity: 1;
+            animation: float 1s forwards; /* Плавная анимация */
+        }
+        @keyframes float {
+            0% {
+                transform: translate(0, 0); /* Начальная позиция */
+            }
+            100% {
+                transform: translate(var(--x), var(--y)); /* Конечная позиция */
+            }
         }
     </style>
 </head>
@@ -73,18 +81,20 @@
                 const x = Math.cos(angle) * distance;
                 const y = Math.sin(angle) * distance;
 
-                // Анимация сыпания
-                cube.style.transform = `translate(${x}px, ${y}px)`;
+                // Установка переменных для анимации
+                cube.style.setProperty('--x', `${x}px`);
+                cube.style.setProperty('--y', `${y}px`);
+
                 document.body.appendChild(cube);
 
-                // Удаляем кубик через 500 мс после анимации
+                // Удаляем кубик через 1000 мс после анимации
                 setTimeout(() => {
                     cube.style.opacity = '0'; // Фейд-аут
                 }, 10);
 
                 setTimeout(() => {
                     document.body.removeChild(cube);
-                }, 500);
+                }, 1000);
             }
         }
     </script>
